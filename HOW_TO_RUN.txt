@@ -1,0 +1,87 @@
+School Vaccination Portal - Full Stack Application
+Developer: Siddharth Gandhi
+Course: SE ZG503 FSAD II SEM 2024-2025
+
+====================================================================
+PREREQUISITES
+====================================================================
+- Node.js installed (v16 or later recommended)
+- npm (Node Package Manager)
+- Modern browser (e.g., Chrome, Edge, Firefox)
+
+====================================================================
+SETUP INSTRUCTIONS
+====================================================================
+
+STEP 1: Clone the Project (Skip if already downloaded)
+
+STEP 2: Backend Setup
+------------------------------------
+1. Open Terminal
+2. Navigate to the backend folder:
+   cd backend
+3. Install dependencies:
+   npm install
+4. Start backend server:
+   npm start
+5. Backend will run on:
+   http://localhost:5000
+
+(Note: Database file (db.sqlite) will be created automatically.)
+
+------------------------------------
+
+STEP 3: Frontend Setup
+------------------------------------
+1. Open a new Terminal window
+2. Navigate to the frontend folder:
+   cd frontend
+3. Install dependencies:
+   npm install
+4. Start frontend server:
+   npm run dev
+5. Frontend will run on:
+   http://localhost:5173
+
+------------------------------------
+
+STEP 4: Login Credentials
+------------------------------------
+- Username: coordinator
+- Password: password123
+
+------------------------------------
+
+STEP 5: API Testing (Optional)
+------------------------------------
+- Import docs/Postman_Collection.json into Postman.
+- Test login, student, drive, dashboard APIs.
+
+------------------------------------
+
+STEP 6: Bulk Upload Students (Optional)
+------------------------------------
+- Use sample_students.csv provided in demo_files/ for testing CSV uploads.
+
+====================================================================
+PROJECT STRUCTURE
+====================================================================
+- backend/        --> Node.js Backend Server
+- frontend/       --> React Frontend Application
+- docs/           --> README, Postman Collection
+- demo_files/     --> Sample CSV file
+- HOW_TO_RUN.txt  --> This file
+
+====================================================================
+IMPORTANT NOTES
+====================================================================
+- Ensure backend is started before frontend.
+- SQLite database is used for local storage.
+- Drives must be scheduled at least 15 days in advance.
+- Past vaccination drives cannot be edited.
+- Vaccination status can be updated per drive but cannot duplicate vaccines.
+
+====================================================================
+END OF INSTRUCTIONS
+====================================================================
+

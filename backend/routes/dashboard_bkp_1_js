@@ -1,0 +1,27 @@
+const express = require('express');
+const router = express.Router();
+const db = require('../database');
+
+router.get('/', (req, res) => {
+  db.serialize(() => {
+    db.get('SELECT COUNT(*) AS total_students FROM students', (err, totalResult) => {
+      if (err) return res.status(500).json(err);
+      db.get('SELECT COUNT(*) AS vaccinated_students FROM students WHERE vaccinated = 1', (err, vaccinatedResult) => {
+        if (err) return res.status(500).json(err);
+        db.all('SELECT * FROM drives WHERE drive_date >= DATE("now") AND drive_date <= DATE("now", "+30 day")', (err, upcomingDrives) => {
+          if (err) return res.status(500).json(err);
+
+          res.json({
+            total_students: totalResult.total_students,
+            vaccinated_students: vaccinatedResult.vaccinated_students,
+            percentage_vaccinated: ((vaccinatedResult.vaccinated_students / totalResult.total_students) * 100).toFixed(2),
+            upcoming_drives: upcomingDrives
+          });
+        });
+      });
+    });
+  });
+});
+
+module.exports = router;
+
