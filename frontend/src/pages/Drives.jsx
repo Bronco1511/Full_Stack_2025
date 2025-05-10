@@ -13,23 +13,39 @@ function Drives() {
   }, []);
 
   const fetchDrives = async () => {
-    const res = await api.get('/drives');
-    setDrives(res.data);
+    try {
+      const res = await api.get('/drives');
+      setDrives(res.data);
+    } catch (err) {
+      console.error("Failed to fetch drives:", err);
+    }
   };
 
   const scheduleDrive = async (e) => {
     e.preventDefault();
-    await api.post('/drives', {
-      vaccine_name: vaccineName,
-      drive_date: driveDate,
-      available_doses: doses,
-      applicable_classes: classes
-    });
-    setVaccineName('');
-    setDriveDate('');
-    setDoses('');
-    setClasses('');
-    fetchDrives();
+
+    try {
+      const res = await api.post('/drives', {
+        vaccine_name: vaccineName,
+        drive_date: driveDate,
+        doses: parseInt(doses),
+        classes: classes
+      });
+
+      alert("Drive scheduled successfully.");
+      setVaccineName('');
+      setDriveDate('');
+      setDoses('');
+      setClasses('');
+      fetchDrives();
+    } catch (err) {
+      console.error("Schedule failed:", err);
+      if (err.response?.data?.error) {
+        alert("Error: " + err.response.data.error);
+      } else {
+        alert("Unexpected error occurred while scheduling.");
+      }
+    }
   };
 
   const handleLogout = () => {
@@ -63,21 +79,26 @@ function Drives() {
             placeholder="Vaccine Name"
             value={vaccineName}
             onChange={(e) => setVaccineName(e.target.value)}
+            required
           /><br /><br />
           <input
             type="date"
             value={driveDate}
             onChange={(e) => setDriveDate(e.target.value)}
+            required
           /><br /><br />
           <input
+            type="number"
             placeholder="Available Doses"
             value={doses}
             onChange={(e) => setDoses(e.target.value)}
+            required
           /><br /><br />
           <input
             placeholder="Applicable Classes (comma separated)"
             value={classes}
             onChange={(e) => setClasses(e.target.value)}
+            required
           /><br /><br />
           <button type="submit">Schedule Drive</button>
         </form>
@@ -86,7 +107,7 @@ function Drives() {
         <ul>
           {drives.map((drive, idx) => (
             <li key={idx}>
-              {drive.vaccine_name} on {drive.drive_date} for classes {drive.applicable_classes}
+              {drive.vaccine_name} on {drive.drive_date} for classes {drive.classes}
             </li>
           ))}
         </ul>
