@@ -1,0 +1,32 @@
+import React, { useEffect, useState } from 'react';
+import api from '../services/api';
+
+function Dashboard() {
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    api.get('/dashboard').then(res => setData(res.data));
+  }, []);
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h2>Dashboard</h2>
+      <p>Total Students: {data.total_students}</p>
+      <p>Vaccinated Students: {data.vaccinated_students}</p>
+      <p>Vaccination Rate: {data.percentage_vaccinated}%</p>
+      <h3>Upcoming Drives:</h3>
+      {data.upcoming_drives && data.upcoming_drives.length > 0 ? (
+        <ul>
+          {data.upcoming_drives.map((drive) => (
+            <li key={drive.id}>{drive.vaccine_name} on {drive.drive_date}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No upcoming drives.</p>
+      )}
+    </div>
+  );
+}
+
+export default Dashboard;
+
